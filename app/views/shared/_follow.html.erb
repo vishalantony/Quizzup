@@ -1,0 +1,9 @@
+<%= form_for(current_user.topic_follow_relationships.build, remote: true) do |f| %>
+  <div>
+  
+  	<%= hidden_field_tag :followed_topic_id, @topic.id %>
+  </div>
+
+  <%= f.submit "Follow", class: "btn btn-primary" %>
+
+<% end %>

@@ -1,0 +1,14 @@
+<li>
+	<%#= gravatar_for user, size: 50 %>
+	<div class="col-md-2">
+	<%= image_tag (topic.image.nil?)? "" : topic.image, size: "80x80", alt: 'image'%>
+	</div>
+	<div class='col-md-8'>
+	<%= link_to topic.name, topic %> (<%= "#{pluralize(topic.how_many_followers, 'follower')}" %>)<br>
+	<%= topic.about %>
+	</div>
+	<div class='col-md-2'>
+			<% @topic = topic %>
+		<%= render 'shared/follow_form' if logged_in? %>
+	</div>
+</li>		

@@ -1,0 +1,18 @@
+<% provide(:title, "#{'My Question'.pluralize(@questions.length)}") %>
+
+<div class='row'>
+<div class="col-md-2"></div>
+
+<div class='col-md-8'>
+	<% if @questions.empty? %>
+		<h2>No questions have been submitted by you.</h2>
+	<% else %>
+		<h2> <%= 'Your Question'.pluralize(@questions.length) %> (<%= @questions.length %>) : </h2>
+		<ol class="microposts">
+		<%= render partial: 'my_question', collection: @questions %>
+		</ol>
+		<%= will_paginate @questions %>
+	<% end %>
+</div>
+
+</div>

@@ -1,0 +1,79 @@
+<% provide(:title, @topic.name) %>
+
+<div class="row">
+
+	<aside class="col-md-3">
+		<section class="user_info">
+			<h1>
+				<%= image_tag @topic.image , alt: 'Image', size: '100x100' %><br><br>
+				<%= @topic.name %>
+			</h1>
+
+			<p>
+				Followed by <%= "#{pluralize(@topic.how_many_followers, 'user')}." %> 
+			</p>
+
+			<div>
+				<%= render 'shared/follow_form' if logged_in? %>
+			</div>
+			<br>
+			
+			<% if @topic.has_parent? %>
+				<p>
+					<%= @topic.name %> is a subtopic of 
+					<%= link_to @parent.name, @parent %>. 
+				</p>
+			<% end %>
+
+			<p>
+			<%= @topic.about %>
+			</p>
+
+			<div>
+				<% if @topic.has_subtopics? %>
+					<p>Here are the subtopics of <%= @topic.name %>: </p>
+					<ul>
+						<% @subtopics.each do |st| %>
+							<li><%= link_to st.name, st %></li>
+						<% end %>
+					</ul>
+				<% end %>
+			</div>
+
+		</section>
+	</aside>
+
+	<div class="col-md-9">
+
+		<% if logged_in? %>
+			<h2>
+				<%= "Statistics:" %>
+			</h2>
+			<p>
+				<%= "#{pluralize(@topic.how_many_questions, 'question')} under #{@topic.name}" %><br>
+				<%= "#{pluralize(quizzes_under_topic(@topic), 'quiz')} taken under #{@topic.name}" %><br>
+			</p>
+
+		<% end %>
+
+		<h2>
+			<%= "Top solvers for #{@topic.name}:" %>
+		</h2>
+		<p>
+			<% if @local_leaderboard.empty? %>
+				No one has ever attempted to take a quiz under <%= @topic.name %>.
+			<% else %>
+				<table class='table'>
+					<th>Name</th><th>Points scored</th>
+					<% @local_leaderboard.each do |k, v| %>
+						<% if not (v.nil? || (v <= 0)) %>
+							<tr><td><%= link_to k.name, k %></td><td><%= v %></td></tr>
+						<% end %>
+					<% end %>
+				</table>
+			<% end %>
+		</p>
+
+	</div>
+
+</div>

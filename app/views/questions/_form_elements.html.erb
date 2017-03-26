@@ -1,0 +1,99 @@
+  	<%= render 'shared/error_messages', object: question_form.object %>
+  	
+
+	<%= hidden_field :creator_id, current_user.id %>
+
+	<%= question_form.label :topic_id, 'Select topic:' %>
+	<%= question_form.select :topic_id, options_from_collection_for_select(@topics || [], "id", "name", @question.topic_id), {prompt: 'Select topic'} %>
+
+	<%= question_form.label :question, 'Enter question:' %>
+	<%= question_form.text_area :question %>
+
+	<%= question_form.label :question_type_id, 'Question Type' %>
+	<%= question_form.select :question_type_id, options_from_collection_for_select(@qtypes || [], "id", "typename", @question.question_type), {prompt: 'Select Question Type'}, onchange: "onTypeSelection()"  %>
+
+	<%= question_form.label :choices %><br>
+	
+	<%= question_form.fields_for :choices do |choice_fields| %>
+		<%= choice_fields.text_field :choice, class: 'mcq_fields', onchange: "addOptions()" %>
+	<% end %>
+
+	<%= question_form.label :answer %>
+	<%= question_form.text_field :answer, class: 'subjective_fields' %>
+	<%= question_form.select :answer, options_from_collection_for_select(@question.choices || [], "choice", "choice", @question.answer), {},  class: 'mcq_fields' %>
+
+	<% if current_user.admin? %>
+
+		<script>
+			function uncheckApprove() {
+				if ($('#question_disapproved').is(":checked")) {
+					$('#question_approved').prop('checked', false);
+				}
+			}
+
+			function uncheckDisapprove() {
+				if ($('#question_approved').is(":checked")) {
+					$('#question_disapproved').prop('checked', false);
+				}
+			}
+		</script>
+
+
+		<%= question_form.label :approved, "Approve" %>
+		<%= question_form.check_box :approved, onclick: 'uncheckDisapprove()' %>
+		<%= question_form.label :disapproved, "Disapprove" %>
+		<%= question_form.check_box :disapproved, onclick: 'uncheckApprove()' %>
+	<% end %>
+
+	<%= question_form.submit yield(:button_text), class: 'btn btn-primary' %>
+
+
+
+<script>
+	function onTypeSelection() {
+		var type = document.getElementById('question_question_type_id').value;
+		var mcq_elements = document.getElementsByClassName('mcq_fields');
+		var subj_elements = document.getElementsByClassName('subjective_fields');
+		if(type == 1) {
+			for(var i = 0; i < mcq_elements.length; i++) {
+				mcq_elements[i].disabled = false;
+			}
+
+			for(var i = 0; i < subj_elements.length; i++) {
+				subj_elements[i].disabled = true;
+			}
+		}
+		else if (type == 2) {
+			for(var i = 0; i < mcq_elements.length; i++) {
+				mcq_elements[i].disabled = true;
+			}
+
+			for(var i = 0; i < subj_elements.length; i++) {
+				subj_elements[i].disabled = false;
+			}
+		}
+	}
+
+	function addOptions() {
+		var texts = $("input.mcq_fields").map(function() {
+		   return $(this).val();
+		}).get();
+
+		var allFilled = true;
+		for(var i = 0; i < texts.length; i++) {
+			if(texts[i].length == 0) {
+				allFilled = false;
+			}
+		}
+		if(allFilled) {
+			$("select.mcq_fields").empty();
+			for(var i = 0; i < texts.length; i++) {
+				var option = document.createElement("option");
+				option.value = texts[i];
+				option.text = texts[i];
+				$("select.mcq_fields").append($(option));
+			}
+		}
+	}
+
+</script>

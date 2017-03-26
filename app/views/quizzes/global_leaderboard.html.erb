@@ -1,0 +1,18 @@
+<h1>Global Leaderboard:</h1>
+
+<% if not @gl_leaderboard.blank? %>
+	<table class='table'>
+	<tr>
+		<th>User</th>
+		<th>Total Score</th>
+		<th>Quizzes Taken</th>
+	</tr>
+	<% @gl_leaderboard.each do |k, v| %>
+		<tr>
+			<td><%= link_to k.name, k %></td>
+			<td><%= v %></td>
+			<td><%= @quiz_count[k] %></td>
+		</tr>
+	<% end %>
+	</table>
+<% end %>

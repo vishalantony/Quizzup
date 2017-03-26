@@ -1,0 +1,6 @@
+<li>
+	<%= link_to quiz.name, quiz %><br>
+	Started at : <%= quiz.start_time %> | 
+	<%= (Time.zone.now >= quiz.end_time) ? ('Ended at') : ('Ends at') %> : <%= quiz.end_time %> <br>
+	Score : <%= Quiz.score(quiz) %>
+</li>

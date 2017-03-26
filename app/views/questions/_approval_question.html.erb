@@ -1,0 +1,6 @@
+
+	Q &gt
+	<%= approval_question.question %> <br>
+	<%= link_to 'View', controller: 'questions', action: 'new_approval', id: approval_question.id %> |
+	Submitted by <%= link_to approval_question.creator.name, approval_question.creator %>
+	<hr>

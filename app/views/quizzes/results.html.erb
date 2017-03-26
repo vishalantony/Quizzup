@@ -1,0 +1,20 @@
+<% provide(:title, (@quiz.nil?) ? 'Quiz Results' : "#{@quiz.name} Results") %>
+
+<h1>Results</h1>
+
+<%  qq_list = QuizQuestion.where('quiz_id = (?)', @quiz.id).preload(:question) %>
+<% total_marks = 0 %>
+<% qq_list.each do |qq| %>
+	<p>
+		<%= qq.question.question %><br>
+		Correct Answer: <%= qq.question.answer %><br>
+		<%= (qq.user_answer.blank?) ? "You didn't answer this question." : "Your Answer: #{qq.user_answer}" %><br>
+		Points Scored: <%= qq.marks || '0' %>
+		<% total_marks += (qq.marks || 0) %>
+	</p>
+<% end %>
+<p>
+<b>
+	Total Score : <%= total_marks %>
+</b>
+</p>

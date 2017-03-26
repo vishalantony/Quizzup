@@ -1,0 +1,32 @@
+<%= form_for(@topic) do |f| %>
+  <div class="field">
+  	<%= render 'shared/error_messages', object: f.object %>
+  	<%= f.label :name %>
+  	<%= f.text_field :name %>
+  	<%= f.label :about %>
+    <%= f.text_area :about, placeholder: "Tell something about this topic..." %>
+
+
+    <%= f.label :parent %><br>
+	<%= f.fields_for :subtopic_relationship do |p| %>
+		<%= p.select :parent_id, options_from_collection_for_select(@current_topics, "id", "name"), {prompt: 'Select parent topic'}, class: 'parent_select' %>
+	<% end %>
+
+	<span class="picture">
+    	<%= f.file_field :image %>
+  	</span>
+
+  </div>
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  
+<% end %>
+
+
+<script type="text/javascript">
+  $('#topic_image').bind('change', function() {
+    var size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 1) {
+      alert('Maximum file size is 1MB. Please choose a smaller file.');
+    }
+  });
+</script>

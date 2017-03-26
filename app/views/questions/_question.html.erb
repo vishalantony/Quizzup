@@ -1,0 +1,16 @@
+
+	Q &gt
+	<%= question.question %> <br><br>
+
+	<% if question.typename.downcase == 'mcq' %> <!-- Multiple choice question -->
+		<% question.choices.each do |choice| %>
+			<%= radio_button_tag "quiz[#{question.id}]", choice.id, false, class: 'mcq_radio' %>
+			<%= label question.id, choice.id, choice.choice %> <br>
+		<% end %>
+	<% elsif question.typename.downcase == "subjective" %> <!-- Subjective question -->
+		<%= label question.id, 'Enter your answer: ' %>
+		<%= text_field_tag "quiz[#{question.id}]" %>
+	<% end %>
+
+	<span class="marks"><span id = 'correct'>Correct : +2 </span>| <span id='wrong'>Wrong : <%= (question.question_type == 1) ? -1 : 0 %></span></span>
+	<hr>

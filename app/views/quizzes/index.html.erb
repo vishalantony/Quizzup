@@ -1,0 +1,11 @@
+<% provide(:title, "My Quizzes") %>
+
+<h1>My Quizzes </h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+	<%= render @quizzes %>
+</ul>
+
+<%= will_paginate %>

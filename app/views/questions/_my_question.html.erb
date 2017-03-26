@@ -1,0 +1,12 @@
+
+	Q &gt
+	<%= my_question.question %> <br>
+	Question Type : <%= my_question.typename %><br>
+	<% if my_question.typename == 'mcq' %>
+		Choices:<br>
+		<% my_question.choices.each do |c| %>
+			<%= c.choice %> <br>
+		<% end %>
+	<% end %>
+	Answer : <%= my_question.answer %> <br>
+	<hr>

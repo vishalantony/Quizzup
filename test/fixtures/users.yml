@@ -1,0 +1,4 @@
+vishal:
+  name: Vishal Antony
+  email: vishalantony@outlook.com
+  password_digest: <%= User.digest('abcdef') %>

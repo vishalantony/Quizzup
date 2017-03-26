@@ -1,0 +1,11 @@
+<% provide(:title, "All Topics") %>
+
+<h3><%= (logged_in?) ? 'New topics to follow:' : 'Topics on Quizzup:' %></h3>
+
+<%= will_paginate %>
+
+<ul class="users">
+	<%= render @topics %>
+</ul>
+
+<%= will_paginate %>
