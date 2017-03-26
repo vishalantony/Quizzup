@@ -1,9 +1,9 @@
-<h1> Sample App </h1>
+<h1> Quizzup </h1>
 
 <p> Hi <%= @user.name %>, </p>
 
 <p>
-Welcome to Sample App! Click on the following link to activate your account:
+Welcome to Quizzup! Click on the following link to activate your account:
 </p>
 
 <%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.email) %>
